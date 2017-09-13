@@ -11,8 +11,8 @@
             <span class="post-category"><a href="#">{{ post.category.name }}</a></span>
             <span class="post-date"><a href="#"><time class="entry-date" datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
             <span class="post-author"><a href="#">{{ post.author }}</a></span>
-            <span class="comments-link"><a href="#">{{post.comment_set.count}} 评论</a></span>
-            <span class="views-count"><a href="#">{{post.views}} 阅读</a></span>
+            <span class="comments-link"><a href="{{post.get_absolute_url}}#comment-area">{{post.comment_set.count}} 评论</a></span>
+            <span class="views-count"><a href="{{ post.get_absolute_url }}">{{post.views}} 阅读</a></span>
         </div>
     </header>
     <div class="entry-content clearfix">
@@ -25,24 +25,37 @@
 {% empty %}
 暂时还没有发布的文章！div>
 {% endfor %}
-<!-- 简单分页效果
-<div class="pagination-simple">
-<a href="#">上一页</a>
-<span class="current">第 6 页 / 共 11 页</span>
-<a href="#">下一页</a>
-</div>
--->
 <div class="pagination">
     <ul>
-        <li><a href="">1</a></li>
-        <li><a href="">...</a></li>
-        <li><a href="">4</a></li>
-        <li><a href="">5</a></li>
-        <li class="current"><a href="">6</a></li>
-        <li><a href="">7</a></li>
-        <li><a href="">8</a></li>
-        <li><a href="">...</a></li>
-        <li><a href="">11</a></li>
+        {% if first %}
+        <li><a href="?page=1">1</a></li>
+        {% endif %}
+
+        {% if left %}
+            {% if left_has_more %}
+                <li><span>...</span></li>
+            {% endif %}
+            {% for i in left %}
+                <li><a href="?page={{i}}">{{i}}</a></li>
+            {% endfor %}
+        {% endif %}
+
+        <li class="current"><a href="?page={{page_obj.number}}">{{page_obj.number}}</a></li>
+
+
+          {% if right %}
+            {% for i in right %}
+                <li><a href="?page={{i}}">{{i}}</a></li>
+            {% endfor %}
+            {% if right_has_more %}
+                <li><span>...</span></li>
+            {% endif %}
+          {% endif %}
+
+        {% if last %}
+        <li><a href="?page={{paginator.num_pages}}">{{paginator.num_pages}}</a></li>
+        {% endif %}
     </ul>
 </div>
+
 {% endblock main %}
