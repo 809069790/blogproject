@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'comment',
+    'users',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +122,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+HAYSTACK_CONNECTIONS = {
+ 'default': {
+ 'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
+ 'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+ },
+}
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 1
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+
+
+
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = '18274600337@163.com'
+EMAIL_HOST_PASSWORD = 'python1704'
+DEFAULT_FROM_EMAIL = '18274600337@163.com'

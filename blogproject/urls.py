@@ -20,4 +20,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'',include('blog.urls')),
     url(r'',include('comment.urls')),
+    url(r'^accounts/', include('users.urls')),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^search/', include('haystack.urls')),
 ]
